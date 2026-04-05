@@ -10,6 +10,7 @@ const tdeeValue = document.getElementById('tdee-value');
 const scoreValue = document.getElementById('score-value');
 const scoreText = document.getElementById('score-text');
 const scoreCard = document.querySelector('.metric--score');
+const jokeBox = document.getElementById('joke');
 
 const demoData = {
   sex: 'female',
@@ -17,6 +18,8 @@ const demoData = {
   height: 168,
   weight: 62,
   waist: 74,
+  bpSystolic: 118,
+  bpDiastolic: 76,
   activity: 1.55,
 };
 
@@ -37,18 +40,21 @@ const getScoreInfo = (score) => {
   return { level: 'bad', text: 'Стоит пересмотреть питание, сон и нагрузку.' };
 };
 
-const validate = ({ age, height, weight, waist }) => {
-  if ([age, height, weight, waist].some((v) => Number.isNaN(v))) {
+const validate = ({ age, height, weight, waist, bpSystolic, bpDiastolic }) => {
+  if ([age, height, weight, waist, bpSystolic, bpDiastolic].some((v) => Number.isNaN(v))) {
     return 'Заполните все поля корректными числами.';
   }
   if (age < 14 || age > 100) return 'Возраст должен быть от 14 до 100 лет.';
   if (height < 120 || height > 230) return 'Рост должен быть от 120 до 230 см.';
   if (weight < 35 || weight > 250) return 'Вес должен быть от 35 до 250 кг.';
   if (waist < 45 || waist > 180) return 'Обхват талии должен быть от 45 до 180 см.';
+  if (bpSystolic < 80 || bpSystolic > 240) return 'Систолическое давление должно быть от 80 до 240 мм рт. ст.';
+  if (bpDiastolic < 50 || bpDiastolic > 150) return 'Диастолическое давление должно быть от 50 до 150 мм рт. ст.';
+  if (bpSystolic <= bpDiastolic) return 'Систолическое давление должно быть выше диастолического.';
   return '';
 };
 
-const calculate = ({ sex, age, height, weight, waist, activity }) => {
+const calculate = ({ sex, age, height, weight, waist, bpSystolic, bpDiastolic, activity }) => {
   const heightM = height / 100;
   const bmi = weight / (heightM ** 2);
 
@@ -62,8 +68,9 @@ const calculate = ({ sex, age, height, weight, waist, activity }) => {
   const waistToHeight = waist / height;
   const waistPenalty = Math.max(0, (waistToHeight - 0.5) * 180);
   const agePenalty = Math.max(0, age - 45) * 0.7;
+  const bpPenalty = Math.max(0, bpSystolic - 120) * 0.55 + Math.max(0, bpDiastolic - 80) * 0.85;
 
-  const rawScore = 100 - bmiPenalty - waistPenalty - agePenalty;
+  const rawScore = 100 - bmiPenalty - waistPenalty - agePenalty - bpPenalty;
   const score = Math.round(clamp(rawScore, 0, 100));
 
   return {
@@ -73,6 +80,12 @@ const calculate = ({ sex, age, height, weight, waist, activity }) => {
     score,
     bmiLabel: bmiCategory(bmi),
   };
+};
+
+const getJoke = (score) => {
+  if (score >= 80) return 'Ваш организм аплодирует стоя. Главное — не сбить пульс от гордости 😄';
+  if (score >= 60) return 'Неплохо! Тело говорит: «Еще чуть-чуть, и дадим премию в виде энергии».';
+  return 'Пора прокачать режим — холодильник не должен быть вашим фитнес-тренером 😅';
 };
 
 const renderResult = (data) => {
@@ -87,6 +100,7 @@ const renderResult = (data) => {
 
   scoreCard.classList.remove('good', 'warn', 'bad');
   scoreCard.classList.add(info.level);
+  jokeBox.textContent = getJoke(data.score);
 
   result.hidden = false;
 };
@@ -101,6 +115,8 @@ form.addEventListener('submit', (event) => {
     height: toNum(formData.get('height')),
     weight: toNum(formData.get('weight')),
     waist: toNum(formData.get('waist')),
+    bpSystolic: toNum(formData.get('bpSystolic')),
+    bpDiastolic: toNum(formData.get('bpDiastolic')),
     activity: toNum(formData.get('activity')),
   };
 
@@ -118,6 +134,7 @@ form.addEventListener('submit', (event) => {
 form.addEventListener('reset', () => {
   errorBox.textContent = '';
   result.hidden = true;
+  jokeBox.textContent = '';
 });
 
 fillDemoBtn.addEventListener('click', () => {

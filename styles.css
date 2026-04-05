@@ -52,6 +52,8 @@ body {
 .form {
   margin-top: 1.25rem;
   padding: 1.25rem;
+  background: linear-gradient(135deg, #fff2df, #ffe6c2);
+  border-color: #f5c177;
 }
 
 .form__grid {
@@ -140,6 +142,15 @@ select:focus {
 
 .result h2 {
   margin-top: 0;
+}
+
+.result__joke {
+  margin: 0.9rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.75rem;
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-weight: 500;
 }
 
 .metrics {

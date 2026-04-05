@@ -53,6 +53,16 @@
           </label>
 
           <label class="field">
+            <span>Давление (систолическое, мм рт. ст.)</span>
+            <input id="bp-systolic" name="bpSystolic" type="number" min="80" max="240" required placeholder="120" />
+          </label>
+
+          <label class="field">
+            <span>Давление (диастолическое, мм рт. ст.)</span>
+            <input id="bp-diastolic" name="bpDiastolic" type="number" min="50" max="150" required placeholder="80" />
+          </label>
+
+          <label class="field">
             <span>Активность</span>
             <select id="activity" name="activity" required>
               <option value="1.2">Низкая (сидячая работа)</option>
@@ -97,6 +107,7 @@
             <p id="score-text" class="metric__text"></p>
           </article>
         </div>
+        <p id="joke" class="result__joke"></p>
       </section>
     </main>
 
