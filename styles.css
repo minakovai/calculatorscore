@@ -1,0 +1,202 @@
+:root {
+  color-scheme: light;
+  --bg: #f3f6fb;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --border: #dbe4f0;
+  --good: #16a34a;
+  --warn: #d97706;
+  --bad: #dc2626;
+  --shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(circle at top right, #dbeafe, transparent 45%), var(--bg);
+  min-height: 100dvh;
+}
+
+.app {
+  width: min(980px, 100% - 2rem);
+  margin: 2rem auto 3rem;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+}
+
+.app__header p {
+  color: var(--muted);
+  line-height: 1.5;
+  margin-top: 0.75rem;
+  max-width: 72ch;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 1.1rem;
+  box-shadow: var(--shadow);
+}
+
+.form {
+  margin-top: 1.25rem;
+  padding: 1.25rem;
+}
+
+.form__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.field span {
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+input,
+select,
+button {
+  font: inherit;
+}
+
+input,
+select {
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(37, 99, 235, 0.2);
+  border-color: var(--primary);
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.1rem;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
+  padding: 0.62rem 1rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn--primary {
+  color: #fff;
+  background: var(--primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--ghost {
+  background: #fff;
+  border-color: var(--border);
+  color: var(--muted);
+}
+
+.btn--ghost:hover {
+  border-color: #bac7d8;
+  color: var(--text);
+}
+
+.error {
+  margin: 0.8rem 0 0;
+  min-height: 1.2rem;
+  color: var(--bad);
+  font-size: 0.92rem;
+}
+
+.result {
+  margin-top: 1.1rem;
+  padding: 1.2rem;
+}
+
+.result h2 {
+  margin-top: 0;
+}
+
+.metrics {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.metric {
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+  padding: 0.85rem;
+}
+
+.metric h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.metric__value {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.metric__text {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+
+.metric--score {
+  border-width: 2px;
+}
+
+.metric--score.good {
+  border-color: color-mix(in srgb, var(--good), white 45%);
+}
+
+.metric--score.warn {
+  border-color: color-mix(in srgb, var(--warn), white 40%);
+}
+
+.metric--score.bad {
+  border-color: color-mix(in srgb, var(--bad), white 45%);
+}
+
+@media (max-width: 560px) {
+  .app {
+    width: min(980px, 100% - 1rem);
+    margin-top: 1rem;
+  }
+
+  .form,
+  .result {
+    padding: 1rem;
+  }
+}
